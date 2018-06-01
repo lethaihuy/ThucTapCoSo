@@ -1,0 +1,12 @@
+D:\Do An C#\QuanLyNhaDat_version2\QuanLyNhaDat_version2\bin\Debug\QuanLyNhaDat_version2.exe.config
+D:\Do An C#\QuanLyNhaDat_version2\QuanLyNhaDat_version2\bin\Debug\QuanLyNhaDat_version2.exe
+D:\Do An C#\QuanLyNhaDat_version2\QuanLyNhaDat_version2\bin\Debug\QuanLyNhaDat_version2.pdb
+D:\Do An C#\QuanLyNhaDat_version2\QuanLyNhaDat_version2\obj\Debug\QuanLyNhaDat_version2.csprojResolveAssemblyReference.cache
+D:\Do An C#\QuanLyNhaDat_version2\QuanLyNhaDat_version2\obj\Debug\QuanLyNhaDat_version2.Form1.resources
+D:\Do An C#\QuanLyNhaDat_version2\QuanLyNhaDat_version2\obj\Debug\QuanLyNhaDat_version2.Properties.Resources.resources
+D:\Do An C#\QuanLyNhaDat_version2\QuanLyNhaDat_version2\obj\Debug\QuanLyNhaDat_version2.csproj.GenerateResource.Cache
+D:\Do An C#\QuanLyNhaDat_version2\QuanLyNhaDat_version2\obj\Debug\QuanLyNhaDat_version2.exe
+D:\Do An C#\QuanLyNhaDat_version2\QuanLyNhaDat_version2\obj\Debug\QuanLyNhaDat_version2.pdb
+D:\Do An C#\QuanLyNhaDat_version2\QuanLyNhaDat_version2\obj\Debug\QuanLyNhaDat_version2.csproj.ResolveComReference.cache
+D:\Do An C#\QuanLyNhaDat_version2\QuanLyNhaDat_version2\bin\Debug\EPPlus.dll
+D:\Do An C#\QuanLyNhaDat_version2\QuanLyNhaDat_version2\bin\Debug\EPPlus.xml
