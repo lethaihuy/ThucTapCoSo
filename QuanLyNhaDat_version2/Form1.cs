@@ -43,69 +43,6 @@ namespace QuanLyNhaDat_version2
             return dt;
         }
 
-        void ReadExcel()
-        {
-            //Tạo danh sách trống để chứa dữ liệu
-            listThuaDat = new List<ThuaDat>();
-
-            try
-            {
-                var package = new ExcelPackage();
-                //Mở file excel
-                if (txtFilename.Text != "")
-                {
-                    package = new ExcelPackage(new FileInfo(txtFilename.Text));
-                }
-                else
-                {
-                    MessageBox.Show("Chưa chọn file", "Thong báo");
-                }
-
-                //Lấy ra sheet đầu tiên để thao tác
-                ExcelWorksheet workSheet = package.Workbook.Worksheets[1];
-                //Duyệt từ dòng thứ 2 đến dòng cuối cùng
-                for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
-                {
-                    try
-                    {
-                        //cột thứ j trong file
-                        int j = 1;
-                        //Lấy ra cột diachi tại [3, 1]
-                        string diaChi = workSheet.Cells[i, j++].Value.ToString();
-                        //Lấy dòng 2
-                        double dienTich = (double)Convert.ToDouble(workSheet.Cells[i, j++].Value.ToString());
-                        string chuSoHuu = workSheet.Cells[i, j++].Value.ToString();
-                        string loaiNha = workSheet.Cells[i, j++].Value.ToString();
-                        string mucDichSuDung = workSheet.Cells[i, j++].Value.ToString();
-                        double giaTien = (double)Convert.ToDouble(workSheet.Cells[i, j++].Value.ToString());
-
-                        //Tạo 1 td
-                        ThuaDat td = new ThuaDat()
-                        {
-                            DiaChi = diaChi,
-                            DienTich = dienTich,
-                            ChuSoHuu = chuSoHuu,
-                            LoaiNha = loaiNha,
-                            MucDichSuDung = mucDichSuDung,
-                            GiaTien = giaTien
-                        };
-                        listThuaDat.Add(td);
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-
-                }
-
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Error!");
-            }
-            dgvDanhSachNhaDat.DataSource = listThuaDat;
-        }
-
         private void btnNapDuLieu_Click(object sender, EventArgs e)
         {
             ImportExcel();
@@ -159,6 +96,7 @@ namespace QuanLyNhaDat_version2
         {
             // ẩn column đầu tiên(header column)
             dgvDanhSachNhaDat.RowHeadersVisible = false;
+
             LoadQuanLenCombobox();
             //LoadPhuongTheoQuan();
             KhoaControls();
@@ -178,8 +116,10 @@ namespace QuanLyNhaDat_version2
         {
             if (MessageBox.Show("Bạn có muốn xóa thửa đất này ?", "Thông báo", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
             {
-                dtDanhSachNhaDat.Rows.RemoveAt(index);
-                dgvDanhSachNhaDat.DataSource = dtDanhSachNhaDat;
+                foreach (DataGridViewRow row in dgvDanhSachNhaDat.SelectedRows)
+                {
+                    dgvDanhSachNhaDat.Rows.Remove(row);
+                }
                 AutoNumber();
                 dgvDanhSachNhaDat.RefreshEdit();
             }
@@ -238,9 +178,6 @@ namespace QuanLyNhaDat_version2
             {
                 if (CheckData())
                 {
-                    //ThuaDat td = new ThuaDat(txtDiaChi.Text, (Double)Convert.ToDouble(txtDienTich.Text), txtChuSoHuu.Text, cbLoaiNha.Text, cbMucDichSuDung.Text, (Double)Convert.ToDouble(txtGiaTien.Text));
-                    //listThuaDat.Add(td);
-                    //dgvDanhSachNhaDat.DataSource = listThuaDat;
                     string diaChi = txtDiaChi.Text + ", " + cbPhuong.Text + ", " + cbQuan.Text;
                     dtDanhSachNhaDat.Rows.Add(diaChi, txtDienTich.Text, txtChuSoHuu.Text, cbLoaiNha.Text, cbMucDichSuDung.Text, txtGiaTien.Text);
                     dgvDanhSachNhaDat.DataSource = dtDanhSachNhaDat;
@@ -667,10 +604,14 @@ namespace QuanLyNhaDat_version2
             DataView dv = dtDanhSachNhaDat.DefaultView;
             dv.RowFilter = string.Format("diaChi like '%{0}%'", txtTimKiem.Text);
             dgvDanhSachNhaDat.DataSource = dv.ToTable();
+            //dgvDanhSachNhaDat.SelectAll();
+           
+            foreach (DataGridViewRow row in dgvDanhSachNhaDat.SelectedRows)
+            {
+                dgvDanhSachNhaDat.Rows.Remove(row);
+            }
 
-            //dtDanhSachNhaDat.Rows.Remove();
-
-
+            dgvDanhSachNhaDat.DataSource = dtDanhSachNhaDat;
             dgvDanhSachNhaDat.RefreshEdit();
         }
 
@@ -681,7 +622,7 @@ namespace QuanLyNhaDat_version2
             dialog.Filter = "Excel | *.xlsx | Excel 2003 | *.xls";
             dialog.ShowDialog();
 
-            if(dialog.FileName != "")
+            if (dialog.FileName != "")
             {
                 filePath = dialog.FileName;
             }
@@ -701,7 +642,7 @@ namespace QuanLyNhaDat_version2
 
             for (int i = 2; i < dgvDanhSachNhaDat.Columns.Count + 2; i++)
             {
-                worksheet.Cells[2, i-1] = dgvDanhSachNhaDat.Columns[i-2].HeaderText;
+                worksheet.Cells[2, i - 1] = dgvDanhSachNhaDat.Columns[i - 2].HeaderText;
                 worksheet.Cells[2, i - 1].Font.Bold = true;
             }
 
@@ -712,7 +653,7 @@ namespace QuanLyNhaDat_version2
                     worksheet.Cells[i + 3, j + 1] = dgvDanhSachNhaDat.Rows[i].Cells[j].Value.ToString();
                 }
             }
-            
+
             workbook.SaveAs(dialog.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 
             //app.Quit();

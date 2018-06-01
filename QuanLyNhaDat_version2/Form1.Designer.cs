@@ -103,7 +103,7 @@
             // 
             // btnXoaTatCa
             // 
-            this.btnXoaTatCa.Location = new System.Drawing.Point(664, 144);
+            this.btnXoaTatCa.Location = new System.Drawing.Point(800, 139);
             this.btnXoaTatCa.Name = "btnXoaTatCa";
             this.btnXoaTatCa.Size = new System.Drawing.Size(75, 23);
             this.btnXoaTatCa.TabIndex = 11;
@@ -114,7 +114,7 @@
             // btnSapXep
             // 
             this.btnSapXep.ForeColor = System.Drawing.Color.Black;
-            this.btnSapXep.Location = new System.Drawing.Point(757, 144);
+            this.btnSapXep.Location = new System.Drawing.Point(664, 141);
             this.btnSapXep.Name = "btnSapXep";
             this.btnSapXep.Size = new System.Drawing.Size(75, 23);
             this.btnSapXep.TabIndex = 10;
