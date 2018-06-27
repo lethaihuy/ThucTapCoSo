@@ -24,7 +24,7 @@ namespace QuanLyNhaDat_version2
         int index;
         public KetNoi kn;
 
-        List<ThuaDat> listThuaDat;
+        public List<ThuaDat> listThuaDat;
         public Form1()
         {
             InitializeComponent();
@@ -95,7 +95,7 @@ namespace QuanLyNhaDat_version2
         private void Form1_Load(object sender, EventArgs e)
         {
             // ẩn column đầu tiên(header column)
-            dgvDanhSachNhaDat.RowHeadersVisible = false;
+            //dgvDanhSachNhaDat.RowHeadersVisible = false;
 
             LoadQuanLenCombobox();
             //LoadPhuongTheoQuan();
@@ -114,12 +114,15 @@ namespace QuanLyNhaDat_version2
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn có muốn xóa thửa đất này ?", "Thông báo", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+            if (MessageBox.Show("Bạn có muốn xóa thửa đất này " + dgvDanhSachNhaDat.SelectedRows + "? ", "Thông báo", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
             {
                 foreach (DataGridViewRow row in dgvDanhSachNhaDat.SelectedRows)
                 {
-                    dgvDanhSachNhaDat.Rows.Remove(row);
+                    dgvDanhSachNhaDat.Rows.RemoveAt(index);
+                    //dtDanhSachNhaDat.Rows[index].Delete();
+                    //dtDanhSachNhaDat.AcceptChanges();
                 }
+                dgvDanhSachNhaDat.DataSource = dtDanhSachNhaDat;
                 AutoNumber();
                 dgvDanhSachNhaDat.RefreshEdit();
             }
@@ -186,6 +189,9 @@ namespace QuanLyNhaDat_version2
                     this.ResetForm();
                     KhoaControls();
                 }
+                HeapSort(dgvDanhSachNhaDat);
+                AutoNumber();
+                dgvDanhSachNhaDat.Refresh();
             }
             else if (flag == "edit")
             {
@@ -327,47 +333,6 @@ namespace QuanLyNhaDat_version2
             cbPhuong.ValueMember = "tenPhuong";
         }
 
-        public void ThemDLVaoSQL()
-        {
-            try
-            {
-                kn = new KetNoi();
-                SqlCommand cmd = new SqlCommand();
-
-                cmd.Connection = kn.con;
-                kn.Connect();
-                int kq = 0;
-                for (int i = 0; i < dgvDanhSachNhaDat.Rows.Count - 1; i++)
-                {
-                    string query = String.Format("Insert ThuaDat(diaChi, dienTich, chuSoHuu, loaiNha, mucDichSuDung, giaTien) values(N'{0}', {1} , N'{2}', N'{3}', N'{4}', {5})", dgvDanhSachNhaDat.Rows[i].Cells[1].Value, dgvDanhSachNhaDat.Rows[i].Cells[2].Value, dgvDanhSachNhaDat.Rows[i].Cells[3].Value, dgvDanhSachNhaDat.Rows[i].Cells[4].Value, dgvDanhSachNhaDat.Rows[i].Cells[5].Value, dgvDanhSachNhaDat.Rows[i].Cells[6].Value);
-
-                    cmd.CommandText = query;
-                    kq = cmd.ExecuteNonQuery();
-                }
-
-                if (kq > 0)
-                {
-                    MessageBox.Show("Lưu thành công", "Thông báo");
-                }
-                else
-                {
-                    MessageBox.Show("Không thành công", "Thông báo");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-
-        }
-
-        private void btnLuuSQL_Click(object sender, EventArgs e)
-        {
-            ThemDLVaoSQL();
-        }
-
-
         void ImportExcel()
         {
             try
@@ -382,7 +347,6 @@ namespace QuanLyNhaDat_version2
                 dtDanhSachNhaDat = new DataTable();
                 sda.Fill(dtDanhSachNhaDat);
                 dgvDanhSachNhaDat.DataSource = dtDanhSachNhaDat;
-
             }
             catch (Exception ex)
             {
@@ -404,7 +368,7 @@ namespace QuanLyNhaDat_version2
         {
             try
             {
-                for (int i = 0; i < dgvDanhSachNhaDat.Rows.Count - 1; i++)
+                for (int i = 0; i < dgvDanhSachNhaDat.Rows.Count; i++)
                 {
                     dgvDanhSachNhaDat.Rows[i].Cells["stt"].Value = i + 1;
                 }
@@ -428,62 +392,9 @@ namespace QuanLyNhaDat_version2
             LoadPhuongTheoQuan(id);
         }
 
-
-        void Heapify(DataGridView dgv, int n, int index)
-        {
-            int left = 2 * (index + 1) - 1;
-            int right = 2 * (index + 1);
-
-            int max = index;
-            if (left < n)
-            {
-                //Cắt Chuỗi
-                string[] diaChi = dgv.Rows[left].Cells[1].Value.ToString().Split(',');
-                string[] soNha1 = diaChi[0].Trim().Split('/');
-
-                string[] diaChiIndex = dgv.Rows[index].Cells[1].Value.ToString().Split(',');
-                string[] soNha2 = diaChiIndex[0].Trim().Split('/');
-
-                if (GetMaxSoNha(soNha1, soNha2) > 0)
-                {
-                    max = left;
-                }
-            }
-            if (right < n)
-            {
-                string[] diaChi = dgv.Rows[right].Cells[1].Value.ToString().Split(',');
-                string[] soNha1 = diaChi[0].Trim().Split('/');
-
-                string[] diaChiMax = dgv.Rows[max].Cells[1].Value.ToString().Split(',');
-                string[] soNha2 = diaChiMax[0].Trim().Split('/');
-
-                if (GetMaxSoNha(soNha1, soNha2) > 0)
-                {
-                    max = right;
-                }
-            }
-
-            if (max != index)
-            {
-                for (int i = 1; i < dgv.Columns.Count; i++)
-                {
-                    Swap(dgv[i, index].Value, dgv[i, max].Value);
-                }
-                Heapify(dgv, n, max);
-            }
-        }
-
-        void Swap(object a, object b)
-        {
-            object temp = a;
-            a = b;
-            b = temp;
-        }
-
         public int GetMaxSoNha(string[] a, string[] b)
         {
-            int so1;
-            int so2;
+            int so1, so2;
             int lenght = a.Length < b.Length ? a.Length : b.Length;
 
             for (int i = 0; i < lenght; i++)
@@ -514,7 +425,7 @@ namespace QuanLyNhaDat_version2
                         }
                         if (string.Compare(a[i], b[i]) < 0)
                         {
-                            return -11;
+                            return -1;
                         }
                     }
                 }
@@ -552,6 +463,66 @@ namespace QuanLyNhaDat_version2
             return -2;
         }
 
+        void Heapify(DataGridView dgv, int n, int index)
+        {
+            int left = 2 * (index + 1) - 1;
+            int right = 2 * (index + 1);
+
+            int largest = index;
+            if (left < n)
+            {
+                //Cắt Chuỗi
+                string[] diaChi = dgv.Rows[left].Cells[1].Value.ToString().Split(',');
+                string[] soNha1 = diaChi[0].Trim().Split('/');
+
+                string[] diaChiIndex = dgv.Rows[index].Cells[1].Value.ToString().Split(',');
+                string[] soNha2 = diaChiIndex[0].Trim().Split('/');
+                //MessageBox.Show("so nha left:" + soNha1.ToString() + " so nha index:" + soNha2.ToString() + "Object : "+soNha1[0]);
+                int max = GetMaxSoNha(soNha1, soNha2);
+                if (max > 0)
+                {
+                    largest = left;
+                }
+            }
+            if (right < n)
+            {
+                string[] diaChi = dgv.Rows[right].Cells[1].Value.ToString().Split(',');
+                string[] soNha1 = diaChi[0].Trim().Split('/');
+
+                string[] diaChiLargest = dgv.Rows[largest].Cells[1].Value.ToString().Split(',');
+                string[] soNha2 = diaChiLargest[0].Trim().Split('/');
+
+                //MessageBox.Show("so nha Right:" + soNha1.ToString() + " so nha Largest:" + soNha2.ToString());
+
+                int max = GetMaxSoNha(soNha1, soNha2);
+
+                if (max > 0)
+                {
+                    largest = right;
+                }
+            }
+
+            if (largest != index)
+            {
+                for (int i = 1; i < dgv.Columns.Count; i++)
+                {
+                    object tmp = dgv[i, index].Value;
+                    dgv[i, index].Value = dgv[i, largest].Value;
+                    dgv[i, largest].Value = tmp;
+                }
+                Heapify(dgv, n, largest);
+            }
+        }
+
+        public void Swap(object a, object b)
+        {
+            object temp = a;
+            a = b;
+            b = temp;
+        }
+
+
+
         public int TachSo(string str)
         {
             int i = 1;
@@ -566,29 +537,38 @@ namespace QuanLyNhaDat_version2
             return i;
         }
 
-        public void SapXepTheoHeapSort(DataGridView dgv)
+        public void HeapSort(DataGridView dgv)
         {
-            int count = dgv.Rows.Count - 1;
+            int count = dgv.Rows.Count;
             for (int i = (count / 2 - 1); i >= 0; i--)
             {
                 Heapify(dgv, count, i);
             }
-            for (int i = count; i > 0; i--)
+            for (int i = count - 1; i > 0; i--)
             {
                 for (int j = 1; j < dgv.Columns.Count; j++)
                 {
-                    Swap(dgv[j, i].Value, dgv[j, 0].Value);
+                    object tmp = dgv[j, i].Value;
+                    dgv[j, i].Value = dgv[j, 0].Value;
+                    dgv[j, 0].Value = tmp;
                 }
                 count--;
                 Heapify(dgv, count, 0);
             }
+
         }
 
         private void btnSapXep_Click(object sender, EventArgs e)
         {
-            SapXepTheoHeapSort(dgvDanhSachNhaDat);
-            dgvDanhSachNhaDat.DataSource = dgvDanhSachNhaDat;
-            dgvDanhSachNhaDat.RefreshEdit();
+            HeapSort(dgvDanhSachNhaDat);
+            //DataView dv = new DataView(dtDanhSachNhaDat);
+            //dv.Sort = "dienTich DESC";
+
+            //dgvDanhSachNhaDat.DataSource = dv;
+            //dgvDanhSachNhaDat.DataSource = dtDanhSachNhaDat;
+
+            AutoNumber();
+            dgvDanhSachNhaDat.Refresh();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -603,15 +583,18 @@ namespace QuanLyNhaDat_version2
         {
             DataView dv = dtDanhSachNhaDat.DefaultView;
             dv.RowFilter = string.Format("diaChi like '%{0}%'", txtTimKiem.Text);
-            dgvDanhSachNhaDat.DataSource = dv.ToTable();
-            //dgvDanhSachNhaDat.SelectAll();
-           
-            foreach (DataGridViewRow row in dgvDanhSachNhaDat.SelectedRows)
-            {
-                dgvDanhSachNhaDat.Rows.Remove(row);
-            }
 
             dgvDanhSachNhaDat.DataSource = dtDanhSachNhaDat;
+            int i = dgvDanhSachNhaDat.Rows.Count - 1;
+            while (i  > -1)
+            {
+                dv.ToTable().Clear();
+                dgvDanhSachNhaDat.Rows.RemoveAt(i);
+                i--;
+              
+            }
+            //dgvDanhSachNhaDat.DataSource = dv.ToTable();
+           
             dgvDanhSachNhaDat.RefreshEdit();
         }
 
@@ -627,9 +610,9 @@ namespace QuanLyNhaDat_version2
                 filePath = dialog.FileName;
             }
 
-            Microsoft.Office.Interop.Excel._Application app = new Microsoft.Office.Interop.Excel.Application();
-            Microsoft.Office.Interop.Excel._Workbook workbook = app.Workbooks.Add(Type.Missing);
-            Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
+            Excel._Application app = new Microsoft.Office.Interop.Excel.Application();
+            Excel._Workbook workbook = app.Workbooks.Add(Type.Missing);
+            Excel._Worksheet worksheet = null;
             app.Visible = true;
 
             worksheet = workbook.Sheets["Sheet1"];
@@ -646,7 +629,7 @@ namespace QuanLyNhaDat_version2
                 worksheet.Cells[2, i - 1].Font.Bold = true;
             }
 
-            for (int i = 0; i < dgvDanhSachNhaDat.Rows.Count - 1; i++)
+            for (int i = 0; i < dgvDanhSachNhaDat.Rows.Count; i++)
             {
                 for (int j = 0; j < dgvDanhSachNhaDat.Columns.Count; j++)
                 {
