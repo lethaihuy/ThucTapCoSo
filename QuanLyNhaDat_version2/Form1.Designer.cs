@@ -28,17 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnXoaTatCa = new System.Windows.Forms.Button();
             this.btnSapXep = new System.Windows.Forms.Button();
             this.btnXuatExcel = new System.Windows.Forms.Button();
+            this.btnMerge = new System.Windows.Forms.Button();
             this.btnNapDuLieu = new System.Windows.Forms.Button();
             this.cbPhuong = new System.Windows.Forms.ComboBox();
             this.cbQuan = new System.Windows.Forms.ComboBox();
+            this.btnMoFileMerge = new System.Windows.Forms.Button();
             this.btnMoFile = new System.Windows.Forms.Button();
             this.cbLoaiNha = new System.Windows.Forms.ComboBox();
             this.cbMucDichSuDung = new System.Windows.Forms.ComboBox();
             this.txtDiaChi = new System.Windows.Forms.TextBox();
+            this.txtFileNameMerge = new System.Windows.Forms.TextBox();
             this.txtFilename = new System.Windows.Forms.TextBox();
             this.txtGiaTien = new System.Windows.Forms.TextBox();
             this.txtDienTich = new System.Windows.Forms.TextBox();
@@ -47,18 +51,13 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnThem = new System.Windows.Forms.Button();
             this.btnXoa = new System.Windows.Forms.Button();
             this.btnSua = new System.Windows.Forms.Button();
             this.dgvDanhSachNhaDat = new System.Windows.Forms.DataGridView();
-            this.btnLuu = new System.Windows.Forms.Button();
-            this.btnHuy = new System.Windows.Forms.Button();
-            this.txtTimKiem = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.STT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.diaChi = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dienTich = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -66,18 +65,26 @@
             this.loaiNha = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mucDichSuDung = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.giaTien = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnLuu = new System.Windows.Forms.Button();
+            this.btnHuy = new System.Windows.Forms.Button();
+            this.txtTimKiem = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label10 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDanhSachNhaDat)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnXoaTatCa);
+            this.groupBox1.Controls.Add(this.panel1);
             this.groupBox1.Controls.Add(this.btnSapXep);
+            this.groupBox1.Controls.Add(this.btnXoaTatCa);
             this.groupBox1.Controls.Add(this.btnXuatExcel);
             this.groupBox1.Controls.Add(this.btnNapDuLieu);
             this.groupBox1.Controls.Add(this.cbPhuong);
-            this.groupBox1.Controls.Add(this.btnHuy);
             this.groupBox1.Controls.Add(this.cbQuan);
             this.groupBox1.Controls.Add(this.btnMoFile);
             this.groupBox1.Controls.Add(this.cbLoaiNha);
@@ -105,20 +112,23 @@
             // 
             // btnXoaTatCa
             // 
-            this.btnXoaTatCa.Location = new System.Drawing.Point(875, 135);
+            this.btnXoaTatCa.BackColor = System.Drawing.Color.Red;
+            this.btnXoaTatCa.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnXoaTatCa.ForeColor = System.Drawing.Color.White;
+            this.btnXoaTatCa.Location = new System.Drawing.Point(962, 135);
             this.btnXoaTatCa.Name = "btnXoaTatCa";
-            this.btnXoaTatCa.Size = new System.Drawing.Size(110, 28);
+            this.btnXoaTatCa.Size = new System.Drawing.Size(95, 28);
             this.btnXoaTatCa.TabIndex = 11;
             this.btnXoaTatCa.Text = "Xóa tất cả";
-            this.btnXoaTatCa.UseVisualStyleBackColor = true;
+            this.btnXoaTatCa.UseVisualStyleBackColor = false;
             this.btnXoaTatCa.Click += new System.EventHandler(this.btnXoaTatCa_Click);
             // 
             // btnSapXep
             // 
             this.btnSapXep.ForeColor = System.Drawing.Color.Black;
-            this.btnSapXep.Location = new System.Drawing.Point(759, 135);
+            this.btnSapXep.Location = new System.Drawing.Point(855, 135);
             this.btnSapXep.Name = "btnSapXep";
-            this.btnSapXep.Size = new System.Drawing.Size(110, 28);
+            this.btnSapXep.Size = new System.Drawing.Size(95, 28);
             this.btnSapXep.TabIndex = 10;
             this.btnSapXep.Text = "Heap sort";
             this.btnSapXep.UseVisualStyleBackColor = true;
@@ -127,20 +137,34 @@
             // btnXuatExcel
             // 
             this.btnXuatExcel.ForeColor = System.Drawing.Color.Black;
-            this.btnXuatExcel.Location = new System.Drawing.Point(727, 25);
+            this.btnXuatExcel.Image = ((System.Drawing.Image)(resources.GetObject("btnXuatExcel.Image")));
+            this.btnXuatExcel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnXuatExcel.Location = new System.Drawing.Point(749, 135);
             this.btnXuatExcel.Name = "btnXuatExcel";
-            this.btnXuatExcel.Size = new System.Drawing.Size(110, 28);
+            this.btnXuatExcel.Size = new System.Drawing.Size(95, 28);
             this.btnXuatExcel.TabIndex = 9;
             this.btnXuatExcel.Text = "Xuất excel";
             this.btnXuatExcel.UseVisualStyleBackColor = true;
             this.btnXuatExcel.Click += new System.EventHandler(this.btnXuatExcel_Click);
+            // 
+            // btnMerge
+            // 
+            this.btnMerge.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnMerge.ForeColor = System.Drawing.Color.Black;
+            this.btnMerge.Location = new System.Drawing.Point(205, 80);
+            this.btnMerge.Name = "btnMerge";
+            this.btnMerge.Size = new System.Drawing.Size(110, 28);
+            this.btnMerge.TabIndex = 9;
+            this.btnMerge.Text = "Merge";
+            this.btnMerge.UseVisualStyleBackColor = false;
+            this.btnMerge.Click += new System.EventHandler(this.btnMerge_Click);
             // 
             // btnNapDuLieu
             // 
             this.btnNapDuLieu.ForeColor = System.Drawing.Color.Black;
             this.btnNapDuLieu.Location = new System.Drawing.Point(643, 135);
             this.btnNapDuLieu.Name = "btnNapDuLieu";
-            this.btnNapDuLieu.Size = new System.Drawing.Size(110, 28);
+            this.btnNapDuLieu.Size = new System.Drawing.Size(95, 28);
             this.btnNapDuLieu.TabIndex = 9;
             this.btnNapDuLieu.Text = "Nạp dữ liệu";
             this.btnNapDuLieu.UseVisualStyleBackColor = true;
@@ -162,6 +186,17 @@
             this.cbQuan.Size = new System.Drawing.Size(164, 23);
             this.cbQuan.TabIndex = 8;
             this.cbQuan.SelectedIndexChanged += new System.EventHandler(this.cbQuan_SelectedIndexChanged);
+            // 
+            // btnMoFileMerge
+            // 
+            this.btnMoFileMerge.ForeColor = System.Drawing.Color.Black;
+            this.btnMoFileMerge.Location = new System.Drawing.Point(255, 40);
+            this.btnMoFileMerge.Name = "btnMoFileMerge";
+            this.btnMoFileMerge.Size = new System.Drawing.Size(53, 23);
+            this.btnMoFileMerge.TabIndex = 1;
+            this.btnMoFileMerge.Text = "Mở file";
+            this.btnMoFileMerge.UseVisualStyleBackColor = true;
+            this.btnMoFileMerge.Click += new System.EventHandler(this.btnMoFileMerge_Click);
             // 
             // btnMoFile
             // 
@@ -204,6 +239,14 @@
             this.txtDiaChi.Name = "txtDiaChi";
             this.txtDiaChi.Size = new System.Drawing.Size(184, 22);
             this.txtDiaChi.TabIndex = 6;
+            // 
+            // txtFileNameMerge
+            // 
+            this.txtFileNameMerge.Location = new System.Drawing.Point(23, 41);
+            this.txtFileNameMerge.Name = "txtFileNameMerge";
+            this.txtFileNameMerge.ReadOnly = true;
+            this.txtFileNameMerge.Size = new System.Drawing.Size(226, 22);
+            this.txtFileNameMerge.TabIndex = 6;
             // 
             // txtFilename
             // 
@@ -274,6 +317,16 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "Diện tích(m2):";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.ForeColor = System.Drawing.Color.Black;
+            this.label7.Location = new System.Drawing.Point(339, 30);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(60, 15);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "File name:";
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -296,9 +349,11 @@
             // 
             // btnThem
             // 
+            this.btnThem.Image = ((System.Drawing.Image)(resources.GetObject("btnThem.Image")));
+            this.btnThem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnThem.Location = new System.Drawing.Point(7, 217);
             this.btnThem.Name = "btnThem";
-            this.btnThem.Size = new System.Drawing.Size(75, 29);
+            this.btnThem.Size = new System.Drawing.Size(87, 29);
             this.btnThem.TabIndex = 1;
             this.btnThem.Text = "Thêm";
             this.btnThem.UseVisualStyleBackColor = true;
@@ -306,7 +361,9 @@
             // 
             // btnXoa
             // 
-            this.btnXoa.Location = new System.Drawing.Point(102, 217);
+            this.btnXoa.Image = ((System.Drawing.Image)(resources.GetObject("btnXoa.Image")));
+            this.btnXoa.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnXoa.Location = new System.Drawing.Point(114, 217);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(75, 29);
             this.btnXoa.TabIndex = 1;
@@ -316,7 +373,9 @@
             // 
             // btnSua
             // 
-            this.btnSua.Location = new System.Drawing.Point(195, 217);
+            this.btnSua.Image = ((System.Drawing.Image)(resources.GetObject("btnSua.Image")));
+            this.btnSua.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSua.Location = new System.Drawing.Point(219, 217);
             this.btnSua.Name = "btnSua";
             this.btnSua.Size = new System.Drawing.Size(75, 29);
             this.btnSua.TabIndex = 1;
@@ -342,67 +401,6 @@
             this.dgvDanhSachNhaDat.Size = new System.Drawing.Size(1061, 330);
             this.dgvDanhSachNhaDat.TabIndex = 2;
             this.dgvDanhSachNhaDat.SelectionChanged += new System.EventHandler(this.dgvDanhSachNhaDat_SelectionChanged);
-            // 
-            // btnLuu
-            // 
-            this.btnLuu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.btnLuu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLuu.Location = new System.Drawing.Point(290, 217);
-            this.btnLuu.Name = "btnLuu";
-            this.btnLuu.Size = new System.Drawing.Size(75, 29);
-            this.btnLuu.TabIndex = 1;
-            this.btnLuu.Text = "Lưu";
-            this.btnLuu.UseVisualStyleBackColor = false;
-            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click);
-            // 
-            // btnHuy
-            // 
-            this.btnHuy.Location = new System.Drawing.Point(643, 65);
-            this.btnHuy.Name = "btnHuy";
-            this.btnHuy.Size = new System.Drawing.Size(66, 25);
-            this.btnHuy.TabIndex = 1;
-            this.btnHuy.Text = "Hủy";
-            this.btnHuy.UseVisualStyleBackColor = true;
-            this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
-            // 
-            // txtTimKiem
-            // 
-            this.txtTimKiem.Location = new System.Drawing.Point(861, 224);
-            this.txtTimKiem.Name = "txtTimKiem";
-            this.txtTimKiem.Size = new System.Drawing.Size(207, 22);
-            this.txtTimKiem.TabIndex = 6;
-            this.txtTimKiem.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTimKiem_KeyPress);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(798, 231);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(57, 15);
-            this.label8.TabIndex = 8;
-            this.label8.Text = "Tìm kiếm:";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.Blue;
-            this.label9.Location = new System.Drawing.Point(390, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(312, 26);
-            this.label9.TabIndex = 9;
-            this.label9.Text = "CHƯƠNG TRÌNH QUẢN LÝ NHÀ ĐẤT";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(339, 30);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(60, 15);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "File name:";
             // 
             // STT
             // 
@@ -456,6 +454,84 @@
             this.giaTien.Name = "giaTien";
             this.giaTien.Width = 152;
             // 
+            // btnLuu
+            // 
+            this.btnLuu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.btnLuu.FlatAppearance.BorderSize = 0;
+            this.btnLuu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLuu.Image = ((System.Drawing.Image)(resources.GetObject("btnLuu.Image")));
+            this.btnLuu.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnLuu.Location = new System.Drawing.Point(460, 217);
+            this.btnLuu.Name = "btnLuu";
+            this.btnLuu.Size = new System.Drawing.Size(76, 29);
+            this.btnLuu.TabIndex = 1;
+            this.btnLuu.Text = "Lưu";
+            this.btnLuu.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnLuu.UseVisualStyleBackColor = false;
+            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click);
+            // 
+            // btnHuy
+            // 
+            this.btnHuy.Image = ((System.Drawing.Image)(resources.GetObject("btnHuy.Image")));
+            this.btnHuy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnHuy.Location = new System.Drawing.Point(554, 217);
+            this.btnHuy.Name = "btnHuy";
+            this.btnHuy.Size = new System.Drawing.Size(90, 29);
+            this.btnHuy.TabIndex = 1;
+            this.btnHuy.Text = "Hủy";
+            this.btnHuy.UseVisualStyleBackColor = true;
+            this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
+            // 
+            // txtTimKiem
+            // 
+            this.txtTimKiem.Location = new System.Drawing.Point(861, 224);
+            this.txtTimKiem.Name = "txtTimKiem";
+            this.txtTimKiem.Size = new System.Drawing.Size(207, 22);
+            this.txtTimKiem.TabIndex = 6;
+            this.txtTimKiem.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTimKiem_KeyPress);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(798, 227);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(57, 15);
+            this.label8.TabIndex = 8;
+            this.label8.Text = "Tìm kiếm:";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.Blue;
+            this.label9.Location = new System.Drawing.Point(390, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(312, 26);
+            this.label9.TabIndex = 9;
+            this.label9.Text = "CHƯƠNG TRÌNH QUẢN LÝ NHÀ ĐẤT";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel1.Controls.Add(this.label10);
+            this.panel1.Controls.Add(this.btnMerge);
+            this.panel1.Controls.Add(this.txtFileNameMerge);
+            this.panel1.Controls.Add(this.btnMoFileMerge);
+            this.panel1.Location = new System.Drawing.Point(732, 12);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(325, 112);
+            this.panel1.TabIndex = 12;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(4, 4);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(171, 15);
+            this.label10.TabIndex = 10;
+            this.label10.Text = "Merge danh sách nhà đất khác";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -467,6 +543,7 @@
             this.Controls.Add(this.dgvDanhSachNhaDat);
             this.Controls.Add(this.btnSua);
             this.Controls.Add(this.btnXoa);
+            this.Controls.Add(this.btnHuy);
             this.Controls.Add(this.btnLuu);
             this.Controls.Add(this.btnThem);
             this.Controls.Add(this.txtTimKiem);
@@ -479,6 +556,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDanhSachNhaDat)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -524,6 +603,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn loaiNha;
         private System.Windows.Forms.DataGridViewTextBoxColumn mucDichSuDung;
         private System.Windows.Forms.DataGridViewTextBoxColumn giaTien;
+        private System.Windows.Forms.Button btnMerge;
+        private System.Windows.Forms.Button btnMoFileMerge;
+        private System.Windows.Forms.TextBox txtFileNameMerge;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label10;
     }
 }
 

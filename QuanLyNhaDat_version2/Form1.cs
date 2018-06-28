@@ -20,6 +20,7 @@ namespace QuanLyNhaDat_version2
     public partial class Form1 : Form
     {
         DataTable dtDanhSachNhaDat = new DataTable("ThuaDat");
+        DataTable dtDanhSachNhaDatMerge = new DataTable("ThuaDat");
         string flag = "";
         int index;
         public KetNoi kn;
@@ -94,9 +95,6 @@ namespace QuanLyNhaDat_version2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // ẩn column đầu tiên(header column)
-            //dgvDanhSachNhaDat.RowHeadersVisible = false;
-
             LoadQuanLenCombobox();
             //LoadPhuongTheoQuan();
             KhoaControls();
@@ -114,13 +112,11 @@ namespace QuanLyNhaDat_version2
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn có muốn xóa thửa đất này " + dgvDanhSachNhaDat.SelectedRows + "? ", "Thông báo", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+            if (MessageBox.Show("Bạn có muốn xóa thửa đất này ?", "Thông báo", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
             {
                 foreach (DataGridViewRow row in dgvDanhSachNhaDat.SelectedRows)
                 {
                     dgvDanhSachNhaDat.Rows.RemoveAt(index);
-                    //dtDanhSachNhaDat.Rows[index].Delete();
-                    //dtDanhSachNhaDat.AcceptChanges();
                 }
                 dgvDanhSachNhaDat.DataSource = dtDanhSachNhaDat;
                 AutoNumber();
@@ -216,8 +212,6 @@ namespace QuanLyNhaDat_version2
             try
             {
                 index = dgvDanhSachNhaDat.CurrentCell.RowIndex;
-                //DataTable dt = (DataTable)dgvDanhSachNhaDat.DataSource;
-
                 string diaChi = dgvDanhSachNhaDat.Rows[index].Cells[1].Value.ToString();
                 string[] str = diaChi.Split(',');
 
@@ -231,11 +225,10 @@ namespace QuanLyNhaDat_version2
                 txtGiaTien.Text = dgvDanhSachNhaDat.Rows[index].Cells[6].Value.ToString();
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message);
             }
-
         }
 
         private void btnHuy_Click(object sender, EventArgs e)
@@ -272,8 +265,6 @@ namespace QuanLyNhaDat_version2
             dgvDanhSachNhaDat.DataSource = dtDanhSachNhaDat;
             kn.con.Close();
         }
-
-
 
         public List<Quan> LayDanhSachQuan()
         {
@@ -477,7 +468,6 @@ namespace QuanLyNhaDat_version2
 
                 string[] diaChiIndex = dgv.Rows[index].Cells[1].Value.ToString().Split(',');
                 string[] soNha2 = diaChiIndex[0].Trim().Split('/');
-                //MessageBox.Show("so nha left:" + soNha1.ToString() + " so nha index:" + soNha2.ToString() + "Object : "+soNha1[0]);
                 int max = GetMaxSoNha(soNha1, soNha2);
                 if (max > 0)
                 {
@@ -491,8 +481,6 @@ namespace QuanLyNhaDat_version2
 
                 string[] diaChiLargest = dgv.Rows[largest].Cells[1].Value.ToString().Split(',');
                 string[] soNha2 = diaChiLargest[0].Trim().Split('/');
-
-                //MessageBox.Show("so nha Right:" + soNha1.ToString() + " so nha Largest:" + soNha2.ToString());
 
                 int max = GetMaxSoNha(soNha1, soNha2);
 
@@ -513,15 +501,6 @@ namespace QuanLyNhaDat_version2
                 Heapify(dgv, n, largest);
             }
         }
-
-        public void Swap(object a, object b)
-        {
-            object temp = a;
-            a = b;
-            b = temp;
-        }
-
-
 
         public int TachSo(string str)
         {
@@ -561,12 +540,6 @@ namespace QuanLyNhaDat_version2
         private void btnSapXep_Click(object sender, EventArgs e)
         {
             HeapSort(dgvDanhSachNhaDat);
-            //DataView dv = new DataView(dtDanhSachNhaDat);
-            //dv.Sort = "dienTich DESC";
-
-            //dgvDanhSachNhaDat.DataSource = dv;
-            //dgvDanhSachNhaDat.DataSource = dtDanhSachNhaDat;
-
             AutoNumber();
             dgvDanhSachNhaDat.Refresh();
         }
@@ -586,15 +559,13 @@ namespace QuanLyNhaDat_version2
 
             dgvDanhSachNhaDat.DataSource = dtDanhSachNhaDat;
             int i = dgvDanhSachNhaDat.Rows.Count - 1;
-            while (i  > -1)
+            while (i > -1)
             {
                 dv.ToTable().Clear();
                 dgvDanhSachNhaDat.Rows.RemoveAt(i);
                 i--;
-              
+
             }
-            //dgvDanhSachNhaDat.DataSource = dv.ToTable();
-           
             dgvDanhSachNhaDat.RefreshEdit();
         }
 
@@ -640,6 +611,51 @@ namespace QuanLyNhaDat_version2
             workbook.SaveAs(dialog.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 
             //app.Quit();
+        }
+
+        private void btnMoFileMerge_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fOpen = new OpenFileDialog();
+
+            fOpen.Filter = "Excel file |*.xls;*.xlsx";
+            fOpen.FilterIndex = 1;
+            fOpen.RestoreDirectory = true;
+            fOpen.Multiselect = false;
+            fOpen.Title = "Chọn file excel";
+
+            if (fOpen.ShowDialog() == DialogResult.OK)
+            {
+                txtFileNameMerge.Text = fOpen.FileName;
+            }
+        }
+
+        void ImportExcelMerge()
+        {
+            try
+            {
+                String constr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + txtFileNameMerge.Text + ";Extended Properties='Excel 12.0 XML;HDR=YES;';";
+
+                OleDbConnection con = new OleDbConnection(constr);
+                OleDbCommand oconn = new OleDbCommand("Select * From [Sheet1$]", con);
+                con.Open();
+
+                OleDbDataAdapter sda = new OleDbDataAdapter(oconn);
+                dtDanhSachNhaDatMerge = new DataTable();
+                sda.Fill(dtDanhSachNhaDatMerge);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnMerge_Click(object sender, EventArgs e)
+        {
+            ImportExcelMerge();
+            dtDanhSachNhaDat.Merge(dtDanhSachNhaDatMerge);
+            dgvDanhSachNhaDat.DataSource = dtDanhSachNhaDat;
+            AutoNumber();
+            dgvDanhSachNhaDat.RefreshEdit();
         }
     }
 }
